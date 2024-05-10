@@ -22,6 +22,11 @@ app.use(express.json());
 
 app.use('/api', router)
 
+// 测试路由
+app.get('/test', (req, res) => {
+    res.send('ok');
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
