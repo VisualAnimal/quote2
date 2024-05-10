@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 品牌模型
+model Brand {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  models  Model[] // 品牌包含多个型号
+  Product Product[]
+}
+
+// 型号模型
+model Model {
+  id         Int        @id @default(autoincrement())
+  name       String     @unique
+  brand      Brand      @relation(fields: [brandId], references: [id])
+  brandId    Int
+  colors     Color[] // 型号包含多种颜色
+  capacities Capacity[] // 型号包含多种容量
+  versions   Version[] // 型号包含多个版本
+  Product    Product[]
+}
+
+// 颜色模型
+model Color {
+  id      Int       @id @default(autoincrement())
+  name    String
+  model   Model     @relation(fields: [modelId], references: [id])
+  modelId Int
+  Product Product[]
+}
+
+// 容量模型
+model Capacity {
+  id      Int       @id @default(autoincrement())
+  size    String
+  model   Model     @relation(fields: [modelId], references: [id])
+  modelId Int
+  Product Product[]
+}
+
+// 版本模型
+model Version {
+  id      Int       @id @default(autoincrement())
+  name    String
+  model   Model     @relation(fields: [modelId], references: [id])
+  modelId Int
+  Product Product[]
+}
+
+// 产品模型
+model Product {
+  id           Int       @id @default(autoincrement())
+  brand        Brand     @relation(fields: [brandId], references: [id]) // 产品品牌
+  model        Model     @relation(fields: [modelId], references: [id]) // 产品型号
+  color        Color     @relation(fields: [colorId], references: [id]) // 产品颜色
+  capacity     Capacity  @relation(fields: [capacityId], references: [id]) // 产品容量
+  version      Version   @relation(fields: [versionId], references: [id]) // 产品版本
+  brandId      Int
+  modelId      Int
+  colorId      Int
+  capacityId   Int
+  versionId    Int
+  price        Int
+  describe     String?   // 产品描述字段，可以为空
+  createdAt    DateTime  @default(now()) // 创建时间
+  updatedAt    DateTime  @updatedAt    // 更新时间，Prisma 自动生成
+}
