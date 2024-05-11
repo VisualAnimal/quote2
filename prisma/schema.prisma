@@ -57,21 +57,27 @@ model Version {
   Product Product[]
 }
 
+model DescribeTag {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
 // 产品模型
 model Product {
-  id           Int       @id @default(autoincrement())
-  brand        Brand     @relation(fields: [brandId], references: [id]) // 产品品牌
-  model        Model     @relation(fields: [modelId], references: [id]) // 产品型号
-  color        Color     @relation(fields: [colorId], references: [id]) // 产品颜色
-  capacity     Capacity  @relation(fields: [capacityId], references: [id]) // 产品容量
-  version      Version   @relation(fields: [versionId], references: [id]) // 产品版本
-  brandId      Int
-  modelId      Int
-  colorId      Int
-  capacityId   Int
-  versionId    Int
-  price        Int
-  describe     String?   // 产品描述字段，可以为空
-  createdAt    DateTime  @default(now()) // 创建时间
-  updatedAt    DateTime  @updatedAt    // 更新时间，Prisma 自动生成
+  id               Int      @id @default(autoincrement())
+  brand            Brand    @relation(fields: [brandId], references: [id]) // 产品品牌
+  model            Model    @relation(fields: [modelId], references: [id]) // 产品型号
+  color            Color    @relation(fields: [colorId], references: [id]) // 产品颜色
+  capacity         Capacity @relation(fields: [capacityId], references: [id]) // 产品容量
+  version          Version  @relation(fields: [versionId], references: [id]) // 产品版本
+  brandId          Int
+  modelId          Int
+  colorId          Int
+  capacityId       Int
+  versionId        Int
+  price            Int
+  describe         String? // 产品描述字段，可以为空
+  createdAt        DateTime @default(now()) // 创建时间
+  updatedAt        DateTime @updatedAt // 更新时间，Prisma 自动生成
+  customIdentifier String? //自定义编号
 }

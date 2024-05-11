@@ -13,6 +13,7 @@ import Product from './pages/product';
 import ModelManagement from './pages/modelManagement';
 import Attribute from './pages/attribute';
 import HomePage from './pages/HomePage';
+import DescribeTagManagement from './pages/DescribeTagManagement';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "product",
     element: <Product />
+  },
+  {
+    path: "describeTag",
+    element: <DescribeTagManagement />
   }
 ])
 // const router = createBrowserRouter([

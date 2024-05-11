@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controllers = require('../controllers/attributeController');
 const productController = require('../controllers/productController')
+const describeTagController = require('../controllers/describeTagController')
 
 // Brand routes
 router.post('/brands', controllers.brandController.createBrand);
@@ -45,4 +46,11 @@ router.get('/products', productController.getAllProducts);
 router.put('/products/:id', productController.updateProduct);
 router.delete('/products/:id', productController.deleteProduct);
 
-module.exports = router;
+// Describe tag routes
+router.post('/describe-tags', describeTagController.createDescribeTag);
+router.get('/describe-tags', describeTagController.getDescribeTags);
+// router.get('/describe-tags', describeTagController.getDescribeTags);
+router.put('/describe-tags/:id', describeTagController.updateDescribeTag);
+router.delete('/describe-tags/:id', describeTagController.deleteDescribeTag);
+
+module.exports = router

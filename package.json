@@ -2,7 +2,8 @@
   "name": "code04",
   "version": "1.0.0",
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.js",
+    "clear": "node prisma/clear.js"
   },
   "description": "",
   "main": "index.js",

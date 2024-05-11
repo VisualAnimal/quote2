@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const apiUrl = process.env.REACT_APP_API_URL; // 使用环境变量
+
+
 function BrandCRUD() {
     const [brands, setBrands] = useState([]);
     const [newBrandName, setNewBrandName] = useState('');
@@ -16,13 +19,13 @@ function BrandCRUD() {
 
     async function fetchBrands() {
         try {
-            const response = await axios.get('http://localhost:3000/api/brands');
+            const response = await axios.get(`${apiUrl}/api/brands`);
             const brandsWithModels = await Promise.all(response.data.map(async brand => {
-                const modelsResponse = await axios.get(`http://localhost:3000/api/models/brand/${brand.id}`);
+                const modelsResponse = await axios.get(`${apiUrl}/api/models/brand/${brand.id}`);
                 const modelsWithDetails = await Promise.all(modelsResponse.data.map(async model => {
-                    const capacitiesResponse = await axios.get(`http://localhost:3000/api/capacities/model/${model.id}`);
-                    const colorsResponse = await axios.get(`http://localhost:3000/api/colors/model/${model.id}`);
-                    const versionsResponse = await axios.get(`http://localhost:3000/api/versions/model/${model.id}`);
+                    const capacitiesResponse = await axios.get(`${apiUrl}/api/capacities/model/${model.id}`);
+                    const colorsResponse = await axios.get(`${apiUrl}/api/colors/model/${model.id}`);
+                    const versionsResponse = await axios.get(`${apiUrl}/api/versions/model/${model.id}`);
                     return {
                         ...model,
                         capacities: capacitiesResponse.data,
@@ -40,7 +43,7 @@ function BrandCRUD() {
 
     const handleAddBrand = async () => {
         try {
-            await axios.post('http://localhost:3000/api/brands', { name: newBrandName });
+            await axios.post(`${apiUrl}/api/brands`, { name: newBrandName });
             fetchBrands();
             setNewBrandName('');
         } catch (error) {
@@ -50,7 +53,7 @@ function BrandCRUD() {
 
     const handleEditBrand = async (id) => {
         try {
-            await axios.put(`http://localhost:3000/api/brands/${id}`, { name: editBrandName });
+            await axios.put(`${apiUrl}/api/brands/${id}`, { name: editBrandName });
             fetchBrands();
             setEditBrandId(null);
             setEditBrandName('');
@@ -61,7 +64,7 @@ function BrandCRUD() {
 
     const handleDeleteBrand = async (id) => {
         try {
-            await axios.delete(`http://localhost:3000/api/brands/${id}`);
+            await axios.delete(`${apiUrl}/api/brands/${id}`);
             fetchBrands();
         } catch (error) {
             console.error('Error deleting brand:', error);
@@ -74,7 +77,7 @@ function BrandCRUD() {
         console.log(brandId);
         if (modelName) {
             try {
-                await axios.post('http://localhost:3000/api/models', { name: modelName, brandId: parseInt(brandId) });
+                await axios.post(`${apiUrl}/api/models`, { name: modelName, brandId: parseInt(brandId) });
                 fetchBrands(); // 更新品牌列表，以便显示新添加的型号
             } catch (error) {
                 console.error('Error adding model:', error);
@@ -98,7 +101,7 @@ function BrandCRUD() {
         if (newCapacitySize) {
             try {
                 // 发送请求将新容量添加到型号中
-                await axios.post(`http://localhost:3000/api/capacities`, { size: newCapacitySize, modelId: parseInt(modelId) });
+                await axios.post(`${apiUrl}/api/capacities`, { size: newCapacitySize, modelId: parseInt(modelId) });
                 // 重新获取品牌列表以更新数据
                 fetchBrands();
             } catch (error) {
@@ -111,7 +114,7 @@ function BrandCRUD() {
         if (newColorName) {
             try {
                 // 发送请求将新颜色添加到型号中
-                await axios.post(`http://localhost:3000/api/colors`, { name: newColorName, modelId: parseInt(modelId) });
+                await axios.post(`${apiUrl}/api/colors`, { name: newColorName, modelId: parseInt(modelId) });
                 // 重新获取品牌列表以更新数据
                 fetchBrands();
             } catch (error) {
@@ -125,7 +128,7 @@ function BrandCRUD() {
         if (newVersionName) {
             try {
                 // 发送请求将新版本添加到型号中
-                await axios.post(`http://localhost:3000/api/versions`, { name: newVersionName, modelId: parseInt(modelId) });
+                await axios.post(`${apiUrl}/api/versions`, { name: newVersionName, modelId: parseInt(modelId) });
                 // 重新获取品牌列表以更新数据
                 fetchBrands();
             } catch (error) {

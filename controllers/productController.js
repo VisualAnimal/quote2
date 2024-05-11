@@ -31,6 +31,7 @@ const createProduct = async (req, res) => {
         versionId,
         price,
         describe,
+        customIdentifier,
     } = req.body;
 
     try {
@@ -44,6 +45,7 @@ const createProduct = async (req, res) => {
                 versionId,
                 price,
                 describe,
+                customIdentifier
             },
         });
         res.status(201).json(newProduct);

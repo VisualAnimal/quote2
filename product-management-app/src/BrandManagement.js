@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 function BrandManagement() {
     const [brands, setBrands] = useState([]);
     const [newBrandName, setNewBrandName] = useState('');
@@ -15,7 +17,7 @@ function BrandManagement() {
 
     async function getBrandList() {
         try {
-            const response = await axios.get('http://localhost:3000/api/brands');
+            const response = await axios.get(`${apiUrl}/api/brands`);
             setBrands(response.data);
         } catch (error) {
             console.error('Error:', error);
@@ -24,7 +26,7 @@ function BrandManagement() {
 
     const handleAddBrand = async () => {
         try {
-            await axios.post('http://localhost:3000/api/brands', { name: newBrandName });
+            await axios.post(`${apiUrl}/api/brands`, { name: newBrandName });
             getBrandList();
             setNewBrandName('');
         } catch (error) {
@@ -34,7 +36,7 @@ function BrandManagement() {
 
     const handleEditBrand = async (id) => {
         try {
-            await axios.put(`http://localhost:3000/api/brands/${id}`, { name: editBrandName });
+            await axios.put(`${apiUrl}/api/brands/${id}`, { name: editBrandName });
             getBrandList();
             setEditBrandId(null);
             setEditBrandName('');
@@ -45,7 +47,7 @@ function BrandManagement() {
 
     const handleDeleteBrand = async (id) => {
         try {
-            await axios.delete(`http://localhost:3000/api/brands/${id}`);
+            await axios.delete(`${apiUrl}/api/brands/${id}`);
             getBrandList();
         } catch (error) {
             console.error('Error:', error.response.data.message);
