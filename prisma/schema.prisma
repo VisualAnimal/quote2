@@ -58,7 +58,7 @@ model Version {
 }
 
 model DescribeTag {
-  id   Int    @id @default(autoincrement())
+  id   Int     @id @default(autoincrement())
   name String
 }
 
