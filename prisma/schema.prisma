@@ -13,7 +13,7 @@ datasource db {
 // 品牌模型
 model Brand {
   id      Int       @id @default(autoincrement())
-  name    String    @unique
+  name    String
   models  Model[] // 品牌包含多个型号
   Product Product[]
 }
@@ -21,7 +21,7 @@ model Brand {
 // 型号模型
 model Model {
   id         Int        @id @default(autoincrement())
-  name       String     @unique
+  name       String
   brand      Brand      @relation(fields: [brandId], references: [id])
   brandId    Int
   colors     Color[] // 型号包含多种颜色

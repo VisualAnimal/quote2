@@ -13,6 +13,11 @@ const getAllProducts = async (req, res) => {
                 capacity: true,
                 version: true,
             },
+            orderBy: [
+                {
+                    updatedAt: 'desc'
+                }
+            ]
         });
         res.json(products);
     } catch (error) {

@@ -19,25 +19,11 @@ function BrandCRUD() {
 
     async function fetchBrands() {
         try {
-            const response = await axios.get(`${apiUrl}/api/brands`);
-            const brandsWithModels = await Promise.all(response.data.map(async brand => {
-                const modelsResponse = await axios.get(`${apiUrl}/api/models/brand/${brand.id}`);
-                const modelsWithDetails = await Promise.all(modelsResponse.data.map(async model => {
-                    const capacitiesResponse = await axios.get(`${apiUrl}/api/capacities/model/${model.id}`);
-                    const colorsResponse = await axios.get(`${apiUrl}/api/colors/model/${model.id}`);
-                    const versionsResponse = await axios.get(`${apiUrl}/api/versions/model/${model.id}`);
-                    return {
-                        ...model,
-                        capacities: capacitiesResponse.data,
-                        colors: colorsResponse.data,
-                        versions: versionsResponse.data
-                    };
-                }));
-                return { ...brand, models: modelsWithDetails };
-            }));
-            setBrands(brandsWithModels);
+            const response = await axios.get(`${apiUrl}/api/attributes`);
+            const data = response.data;
+            setBrands(data);
         } catch (error) {
-            console.error('Error fetching brands:', error);
+            console.error('Error fetching data:', error);
         }
     }
 

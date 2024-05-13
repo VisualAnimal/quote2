@@ -39,6 +39,9 @@ router.get('/versions/:id', controllers.versionController.getVersionById);
 router.put('/versions/:id', controllers.versionController.updateVersionById);
 router.delete('/versions/:id', controllers.versionController.deleteVersionById);
 
+// attribute routes
+router.get('/attributes', controllers.attributeController.getAttribute)
+
 // Product routes
 router.post('/products', productController.createProduct);
 router.get('/products', productController.getAllProducts);

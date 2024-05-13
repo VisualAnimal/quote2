@@ -7,6 +7,9 @@ const {
     deleteById,
 } = require('./crudController');
 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
 const brandController = {
     createBrand: createOne('brand'),
     getBrands: getMany('brand'),
@@ -47,10 +50,35 @@ const versionController = {
     deleteVersionById: deleteById('version'),
 };
 
+
+const attribute = (model) => async (req, res) => {
+    try {
+        const results = await prisma[model].findMany({
+            include: {
+                models: {
+                    include:{
+                        capacities: true,
+                        colors: true,
+                        versions: true
+                    }
+                }
+            }
+        });
+        res.json(results);
+    } catch (error) {
+        res.status(500).json({ error: `Could not retrieve ${model}s` });
+    }
+};
+
+const attributeController = {
+    getAttribute: attribute('brand')
+}
+
 module.exports = {
     brandController,
     modelController,
     capacityController,
     colorController,
     versionController,
+    attributeController,
 };
